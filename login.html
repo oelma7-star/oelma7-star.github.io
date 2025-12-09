@@ -386,11 +386,17 @@
             document.querySelector('.nav-links').classList.toggle('active');
         }
 
-        // Admin credentials
-        const adminUser = {
-            username: 'admin',
-            password: 'admin123'
-        };
+        // Get admin credentials from localStorage or use defaults
+        function getAdminCredentials() {
+            const savedData = localStorage.getItem('horizonAdminData');
+            if (savedData) {
+                const adminData = JSON.parse(savedData);
+                if (adminData.adminCredentials) {
+                    return adminData.adminCredentials;
+                }
+            }
+            return { username: 'admin', password: 'admin123' };
+        }
 
         // Get users from localStorage (synced with admin panel) or use defaults
         function getUsers() {
@@ -435,6 +441,7 @@
             await new Promise(resolve => setTimeout(resolve, 800));
 
             // Check if admin
+            const adminUser = getAdminCredentials();
             if (username === adminUser.username && password === adminUser.password) {
                 // Store admin session
                 sessionStorage.setItem('adminUser', JSON.stringify({
