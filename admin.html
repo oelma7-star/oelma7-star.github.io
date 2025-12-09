@@ -3,15 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>×××©×§ × ×™×”×•×œ | Horizon Control & Automation</title>
+    <title>ŞŞéç àÙÔÕÜ | Horizon Control & Automation</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary-dark: #1a4b8c;
             --primary: #2563eb;
@@ -20,757 +15,185 @@
             --text-dark: #1a1a2e;
             --text-light: #6b7280;
             --bg-light: #f8fafc;
-            --bg-dark: #e5e7eb;
             --white: #ffffff;
             --error: #ef4444;
             --success: #22c55e;
             --warning: #f59e0b;
             --sidebar-width: 280px;
         }
-
-        body {
-            font-family: 'Heebo', sans-serif;
-            color: var(--text-dark);
-            line-height: 1.6;
-            background: var(--bg-light);
-            min-height: 100vh;
-        }
-
-        /* Layout */
-        .admin-layout {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--text-dark);
-            color: var(--white);
-            position: fixed;
-            height: 100vh;
-            overflow-y: auto;
-            transition: transform 0.3s;
-            z-index: 100;
-        }
-
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .sidebar-header img {
-            height: 40px;
-        }
-
-        .sidebar-header h2 {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
-
-        .menu-section {
-            padding: 0.5rem 1.5rem;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.5);
-            letter-spacing: 1px;
-            margin-top: 1rem;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1.5rem;
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: none;
-            background: none;
-            width: 100%;
-            font-family: 'Heebo', sans-serif;
-            font-size: 1rem;
-        }
-
-        .menu-item:hover {
-            background: rgba(255,255,255,0.1);
-            color: var(--white);
-        }
-
-        .menu-item.active {
-            background: var(--gradient);
-            color: var(--white);
-        }
-
-        .menu-item svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .sidebar-footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            padding: 1rem 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .logout-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: var(--error);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Heebo', sans-serif;
-            font-size: 1rem;
-            width: 100%;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: #dc2626;
-        }
-
-        .logout-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-right: var(--sidebar-width);
-            padding: 2rem;
-        }
-
-        /* Top Bar */
-        .top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .page-title h1 {
-            font-size: 1.75rem;
-            color: var(--primary-dark);
-        }
-
-        .page-title p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .admin-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            background: var(--white);
-            padding: 0.75rem 1.25rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .admin-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .admin-avatar svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--white);
-        }
-
-        /* Stats Cards */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: var(--white);
-            padding: 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
-
-        .stat-card h3 {
-            font-size: 2rem;
-            color: var(--primary-dark);
-        }
-
-        .stat-card p {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gradient);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .stat-icon svg {
-            width: 28px;
-            height: 28px;
-            fill: var(--white);
-        }
-
-        /* Content Sections */
-        .content-section {
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Cards */
-        .card {
-            background: var(--white);
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 1.5rem;
-        }
-
-        .card-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-header h3 {
-            color: var(--primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .card-header h3 svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--primary);
-        }
-
-        .card-body {
-            padding: 1.5rem;
-        }
-
-        /* Tables */
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: right;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        th {
-            background: var(--bg-light);
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        tr:hover {
-            background: var(--bg-light);
-        }
-
-        /* Status Badges */
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .badge-success {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .badge-error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .badge-warning {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        /* Buttons */
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: 'Heebo', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .btn-primary {
-            background: var(--gradient);
-            color: var(--white);
-            box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-        }
-
-        .btn-success {
-            background: var(--success);
-            color: var(--white);
-        }
-
-        .btn-success:hover {
-            background: #16a34a;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: var(--white);
-        }
-
-        .btn-danger {
-            background: var(--error);
-            color: var(--white);
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .btn-outline:hover {
-            background: var(--primary);
-            color: var(--white);
-        }
-
-        .btn-sm {
-            padding: 0.35rem 0.75rem;
-            font-size: 0.8rem;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        /* Forms */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-family: 'Heebo', sans-serif;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .form-group small {
-            color: var(--text-light);
-            font-size: 0.85rem;
-        }
-
-        /* Checkbox Group */
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal {
-            background: var(--white);
-            border-radius: 15px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            animation: modalSlide 0.3s ease;
-        }
-
-        @keyframes modalSlide {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .modal-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            color: var(--primary-dark);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-            transition: color 0.3s;
-        }
-
-        .modal-close:hover {
-            color: var(--error);
-        }
-
-        .modal-body {
-            padding: 1.5rem;
-        }
-
-        .modal-footer {
-            padding: 1rem 1.5rem;
-            border-top: 1px solid #e5e7eb;
-            display: flex;
-            justify-content: flex-end;
-            gap: 1rem;
-        }
-
-        /* Activity Log */
-        .activity-log {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .activity-item {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--bg-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .activity-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: var(--primary);
-        }
-
+        body { font-family: 'Heebo', sans-serif; color: var(--text-dark); line-height: 1.6; background: var(--bg-light); min-height: 100vh; }
+        .admin-layout { display: flex; min-height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: var(--text-dark); color: var(--white); position: fixed; height: 100vh; overflow-y: auto; transition: transform 0.3s; z-index: 100; }
+        .sidebar-header { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 1rem; }
+        .sidebar-header img { height: 40px; }
+        .sidebar-header h2 { font-size: 1.1rem; font-weight: 600; }
+        .sidebar-menu { padding: 1rem 0; }
+        .menu-section { padding: 0.5rem 1.5rem; font-size: 0.75rem; text-transform: uppercase; color: rgba(255,255,255,0.5); letter-spacing: 1px; margin-top: 1rem; }
+        .menu-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.875rem 1.5rem; color: rgba(255,255,255,0.8); text-decoration: none; transition: all 0.3s; cursor: pointer; border: none; background: none; width: 100%; font-family: 'Heebo', sans-serif; font-size: 1rem; }
+        .menu-item:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+        .menu-item.active { background: var(--gradient); color: var(--white); }
+        .menu-item svg { width: 20px; height: 20px; fill: currentColor; }
+        .sidebar-footer { position: absolute; bottom: 0; width: 100%; padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
+        .logout-btn { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--error); color: var(--white); border: none; border-radius: 8px; cursor: pointer; font-family: 'Heebo', sans-serif; font-size: 1rem; width: 100%; transition: all 0.3s; }
+        .logout-btn:hover { background: #dc2626; }
+        .logout-btn svg { width: 20px; height: 20px; fill: currentColor; }
+        .main-content { flex: 1; margin-right: var(--sidebar-width); padding: 2rem; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .page-title h1 { font-size: 1.75rem; color: var(--primary-dark); }
+        .page-title p { color: var(--text-light); font-size: 0.9rem; }
+        .admin-info { display: flex; align-items: center; gap: 1rem; background: var(--white); padding: 0.75rem 1.25rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .admin-avatar { width: 40px; height: 40px; background: var(--gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .admin-avatar svg { width: 24px; height: 24px; fill: var(--white); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--white); padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .stat-card h3 { font-size: 2rem; color: var(--primary-dark); }
+        .stat-card p { color: var(--text-light); font-size: 0.9rem; }
+        .stat-icon { width: 50px; height: 50px; background: var(--gradient); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+        .stat-icon svg { width: 28px; height: 28px; fill: var(--white); }
+        .content-section { display: none; animation: fadeIn 0.3s ease; }
+        .content-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .card { background: var(--white); border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-bottom: 1.5rem; }
+        .card-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .card-header h3 { color: var(--primary-dark); display: flex; align-items: center; gap: 0.5rem; }
+        .card-header h3 svg { width: 24px; height: 24px; fill: var(--primary); }
+        .card-body { padding: 1.5rem; }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1rem; text-align: right; border-bottom: 1px solid #e5e7eb; }
+        th { background: var(--bg-light); font-weight: 600; color: var(--text-dark); }
+        tr:hover { background: var(--bg-light); }
+        .badge { padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: 500; }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-error { background: #fee2e2; color: #991b1b; }
+        .btn { padding: 0.5rem 1rem; border: none; border-radius: 8px; cursor: pointer; font-family: 'Heebo', sans-serif; font-size: 0.9rem; font-weight: 500; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
+        .btn svg { width: 18px; height: 18px; fill: currentColor; }
+        .btn-primary { background: var(--gradient); color: var(--white); box-shadow: 0 2px 10px rgba(37, 99, 235, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+        .btn-success { background: var(--success); color: var(--white); }
+        .btn-success:hover { background: #16a34a; }
+        .btn-danger { background: var(--error); color: var(--white); }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--white); }
+        .btn-sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+        .action-btns { display: flex; gap: 0.5rem; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-dark); }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 2px solid #e5e7eb; border-radius: 8px; font-family: 'Heebo', sans-serif; font-size: 1rem; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); }
+        .form-group small { color: var(--text-light); font-size: 0.85rem; }
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 1rem; }
+        .checkbox-item { display: flex; align-items: center; gap: 0.5rem; }
+        .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--primary); }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: var(--white); border-radius: 15px; width: 90%; max-width: 600px; max-height: 90vh; overflow-y: auto; animation: modalSlide 0.3s ease; }
+        @keyframes modalSlide { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        .modal-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { color: var(--primary-dark); }
+        .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-light); transition: color 0.3s; }
+        .modal-close:hover { color: var(--error); }
+        .modal-body { padding: 1.5rem; }
+        .modal-footer { padding: 1rem 1.5rem; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 1rem; }
+        .activity-log { max-height: 400px; overflow-y: auto; }
+        .activity-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #e5e7eb; }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-icon { width: 40px; height: 40px; background: var(--bg-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .activity-icon svg { width: 20px; height: 20px; fill: var(--primary); }
         .activity-icon.login svg { fill: var(--success); }
         .activity-icon.logout svg { fill: var(--error); }
         .activity-icon.action svg { fill: var(--warning); }
-
-        .activity-content h4 {
-            font-size: 0.95rem;
-            color: var(--text-dark);
-        }
-
-        .activity-content p {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-btn {
-            display: none;
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            z-index: 101;
-            background: var(--gradient);
-            color: var(--white);
-            border: none;
-            padding: 0.75rem;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-
-        .mobile-menu-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .sidebar {
-                transform: translateX(100%);
-            }
-
-            .sidebar.active {
-                transform: translateX(0);
-            }
-
-            .main-content {
-                margin-right: 0;
-            }
-
-            .mobile-menu-btn {
-                display: block;
-            }
-
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 576px) {
-            .main-content {
-                padding: 1rem;
-                padding-top: 4rem;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .top-bar {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Toast Notifications */
-        .toast-container {
-            position: fixed;
-            top: 1rem;
-            left: 1rem;
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .toast {
-            background: var(--white);
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            animation: toastSlide 0.3s ease;
-        }
-
-        @keyframes toastSlide {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
+        .activity-content h4 { font-size: 0.95rem; color: var(--text-dark); }
+        .activity-content p { font-size: 0.85rem; color: var(--text-light); }
+        .mobile-menu-btn { display: none; position: fixed; top: 1rem; right: 1rem; z-index: 101; background: var(--gradient); color: var(--white); border: none; padding: 0.75rem; border-radius: 10px; cursor: pointer; }
+        .mobile-menu-btn svg { width: 24px; height: 24px; fill: currentColor; }
+        .toast-container { position: fixed; top: 1rem; left: 1rem; z-index: 2000; display: flex; flex-direction: column; gap: 0.5rem; }
+        .toast { background: var(--white); padding: 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 0.75rem; animation: toastSlide 0.3s ease; }
+        @keyframes toastSlide { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
         .toast.success { border-right: 4px solid var(--success); }
         .toast.error { border-right: 4px solid var(--error); }
-        .toast.warning { border-right: 4px solid var(--warning); }
-
-        .toast svg {
-            width: 24px;
-            height: 24px;
-        }
-
+        .toast svg { width: 24px; height: 24px; }
         .toast.success svg { fill: var(--success); }
         .toast.error svg { fill: var(--error); }
-        .toast.warning svg { fill: var(--warning); }
+        @media (max-width: 992px) {
+            .sidebar { transform: translateX(100%); }
+            .sidebar.active { transform: translateX(0); }
+            .main-content { margin-right: 0; }
+            .mobile-menu-btn { display: block; }
+        }
+        @media (max-width: 576px) {
+            .main-content { padding: 1rem; padding-top: 4rem; }
+            .top-bar { flex-direction: column; gap: 1rem; align-items: flex-start; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <!-- Mobile Menu Button -->
     <button class="mobile-menu-btn" onclick="toggleSidebar()">
         <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
     </button>
-
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <div class="admin-layout">
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <img src="logoHorizon.png" alt="Horizon">
-                <h2>×××©×§ × ×™×”×•×œ</h2>
+                <h2>ŞŞéç àÙÔÕÜ</h2>
             </div>
-
             <nav class="sidebar-menu">
-                <div class="menu-section">×¨××©×™</div>
+                <div class="menu-section">èĞéÙ</div>
                 <button class="menu-item active" onclick="showSection('dashboard')">
                     <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-                    ×œ×•×— ×‘×§×¨×”
+                    ÜÕ× ÑçèÔ
                 </button>
-
-                <div class="menu-section">× ×™×”×•×œ</div>
+                <div class="menu-section">àÙÔÕÜ</div>
                 <button class="menu-item" onclick="showSection('users')">
-                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                    × ×™×”×•×œ ××©×ª××©×™×
+                    <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                    àÙÔÕÜ ŞéêŞéÙİ
                 </button>
                 <button class="menu-item" onclick="showSection('permissions')">
-                    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-                    ×”×¨×©××•×ª ×•×”×¤× ×™×•×ª
+                    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                    ÔèéĞÕê ÕÔäàÙÕê
                 </button>
                 <button class="menu-item" onclick="showSection('devices')">
-                    <svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2zm-4 10H4V5h14v14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"/></svg>
-                    × ×™×”×•×œ ×”×ª×§× ×™×
+                    <svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2z"/></svg>
+                    àÙÔÕÜ ÔêçàÙİ
                 </button>
-
-                <div class="menu-section">×”×’×“×¨×•×ª</div>
+                <div class="menu-section">ÔÒÓèÕê</div>
                 <button class="menu-item" onclick="showSection('mqtt')">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
-                    ×”×’×“×¨×•×ª MQTT
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+                    ÔÒÓèÕê MQTT
                 </button>
                 <button class="menu-item" onclick="showSection('logs')">
-                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
-                    ×œ×•×’ ×¤×¢×™×œ×•×ª
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
+                    ÜÕÒ äâÙÜÕê
+                </button>
+                <button class="menu-item" onclick="showSection('admin-settings')">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                    ÔÒÓèÕê ŞàÔÜ
                 </button>
             </nav>
-
             <div class="sidebar-footer">
                 <button class="logout-btn" onclick="logout()">
                     <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-                    ×”×ª× ×ª×§×•×ª
+                    ÔêàêçÕê
                 </button>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Top Bar -->
             <div class="top-bar">
                 <div class="page-title">
-                    <h1 id="pageTitle">×œ×•×— ×‘×§×¨×”</h1>
-                    <p id="pageSubtitle">×‘×¨×•×š ×”×‘× ×œ×××©×§ ×”× ×™×”×•×œ</p>
+                    <h1 id="pageTitle">ÜÕ× ÑçèÔ</h1>
+                    <p id="pageSubtitle">ÑèÕÚ ÔÑĞ ÜŞŞéç ÔàÙÔÕÜ</p>
                 </div>
                 <div class="admin-info">
                     <div class="admin-avatar">
                         <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     </div>
-                    <span>×× ×”×œ ××¢×¨×›×ª</span>
+                    <span id="adminName">ŞàÔÜ ŞâèÛê</span>
                 </div>
             </div>
 
@@ -778,47 +201,29 @@
             <section id="section-dashboard" class="content-section active">
                 <div class="stats-grid">
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-                        </div>
+                        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg></div>
                         <h3 id="totalUsers">0</h3>
-                        <p>××©×ª××©×™× ×¨×©×•××™×</p>
+                        <p>ŞéêŞéÙİ èéÕŞÙİ</p>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                        </div>
+                        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
                         <h3 id="activeUsers">0</h3>
-                        <p>××©×ª××©×™× ×¤×¢×™×œ×™×</p>
+                        <p>ŞéêŞéÙİ äâÙÜÙİ</p>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2z"/></svg>
-                        </div>
+                        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2z"/></svg></div>
                         <h3 id="totalDevices">6</h3>
-                        <p>×”×ª×§× ×™× ××•×’×“×¨×™×</p>
+                        <p>ÔêçàÙİ ŞÕÒÓèÙİ</p>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon">
-                            <svg viewBox="0 0 24 24"><path d="M11 17c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1zm0-14v4h2V5.08c3.39.49 6 3.39 6 6.92 0 3.87-3.13 7-7 7s-7-3.13-7-7c0-1.68.59-3.22 1.58-4.42L12 13l1.41-1.41-6.8-6.8v.02C4.42 6.45 3 9.05 3 12c0 4.97 4.02 9 9 9 4.97 0 9-4.03 9-9s-4.03-9-9-9h-1z"/></svg>
-                        </div>
+                        <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M11 17c0 .55.45 1 1 1s1-.45 1-1-.45-1-1-1-1 .45-1 1z"/></svg></div>
                         <h3 id="todayLogins">0</h3>
-                        <p>×›× ×™×¡×•×ª ×”×™×•×</p>
+                        <p>ÛàÙáÕê ÔÙÕİ</p>
                     </div>
                 </div>
-
                 <div class="card">
-                    <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
-                            ×¤×¢×™×œ×•×ª ××—×¨×•× ×”
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="activity-log" id="recentActivity">
-                            <!-- Activity items will be added here -->
-                        </div>
-                    </div>
+                    <div class="card-header"><h3><svg viewBox="0 0 24 24"><path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9z"/></svg>äâÙÜÕê Ğ×èÕàÔ</h3></div>
+                    <div class="card-body"><div class="activity-log" id="recentActivity"></div></div>
                 </div>
             </section>
 
@@ -826,31 +231,17 @@
             <section id="section-users" class="content-section">
                 <div class="card">
                     <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
-                            ×¨×©×™××ª ××©×ª××©×™×
-                        </h3>
+                        <h3><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3z"/></svg>èéÙŞê ŞéêŞéÙİ</h3>
                         <button class="btn btn-primary" onclick="openUserModal()">
                             <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                            ×”×•×¡×£ ××©×ª××©
+                            ÔÕáã ŞéêŞé
                         </button>
                     </div>
                     <div class="card-body">
                         <div class="table-container">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th>×©× ××©×ª××©</th>
-                                        <th>×©× ×œ×§×•×—</th>
-                                        <th>×“×£ Dashboard</th>
-                                        <th>×¡×˜×˜×•×¡</th>
-                                        <th>×›× ×™×¡×” ××—×¨×•× ×”</th>
-                                        <th>×¤×¢×•×œ×•×ª</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="usersTable">
-                                    <!-- Users will be added here -->
-                                </tbody>
+                                <thead><tr><th>éİ ŞéêŞé</th><th>éİ ÜçÕ×</th><th>Óã Dashboard</th><th>áØØÕá</th><th>ÛàÙáÔ Ğ×èÕàÔ</th><th>äâÕÜÕê</th></tr></thead>
+                                <tbody id="usersTable"></tbody>
                             </table>
                         </div>
                     </div>
@@ -860,55 +251,26 @@
             <!-- Permissions Section -->
             <section id="section-permissions" class="content-section">
                 <div class="card">
-                    <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                            ×”×¨×©××•×ª ××©×ª××©×™×
-                        </h3>
-                    </div>
+                    <div class="card-header"><h3><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>ÔèéĞÕê ŞéêŞéÙİ</h3></div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="selectUserPerm">×‘×—×¨ ××©×ª××©:</label>
-                            <select id="selectUserPerm" onchange="loadUserPermissions()">
-                                <option value="">-- ×‘×—×¨ ××©×ª××© --</option>
-                            </select>
+                            <label for="selectUserPerm">Ñ×è ŞéêŞé:</label>
+                            <select id="selectUserPerm" onchange="loadUserPermissions()"><option value="">-- Ñ×è ŞéêŞé --</option></select>
                         </div>
-
                         <div id="permissionsForm" style="display: none;">
-                            <h4 style="margin: 1.5rem 0 1rem; color: var(--primary-dark);">×¤×§×“×™× ××•×ª×¨×™×:</h4>
+                            <h4 style="margin: 1.5rem 0 1rem; color: var(--primary-dark);">äçÓÙİ ŞÕêèÙİ:</h4>
                             <div class="checkbox-group">
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="perm_light" value="light">
-                                    ×©×œ×™×˜×” ×‘×ª××•×¨×”
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="perm_ac" value="ac">
-                                    ××™×–×•×’ ××•×•×™×¨
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="perm_blinds" value="blinds">
-                                    ×ª×¨×™×¡×™×
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="perm_sensors" value="sensors">
-                                    ×—×™×™×©× ×™×
-                                </label>
-                                <label class="checkbox-item">
-                                    <input type="checkbox" id="perm_custom" value="custom">
-                                    ×”×ª×§×Ÿ ××•×ª××
-                                </label>
+                                <label class="checkbox-item"><input type="checkbox" id="perm_light" value="light">éÜÙØÔ ÑêĞÕèÔ</label>
+                                <label class="checkbox-item"><input type="checkbox" id="perm_ac" value="ac">ŞÙÖÕÒ ĞÕÕÙè</label>
+                                <label class="checkbox-item"><input type="checkbox" id="perm_blinds" value="blinds">êèÙáÙİ</label>
+                                <label class="checkbox-item"><input type="checkbox" id="perm_sensors" value="sensors">×ÙÙéàÙİ</label>
+                                <label class="checkbox-item"><input type="checkbox" id="perm_custom" value="custom">Ôêçß ŞÕêĞİ</label>
                             </div>
-
-                            <h4 style="margin: 1.5rem 0 1rem; color: var(--primary-dark);">Topics ××•×ª×¨×™× ×‘-MQTT:</h4>
+                            <h4 style="margin: 1.5rem 0 1rem; color: var(--primary-dark);">Topics ŞÕêèÙİ Ñ-MQTT:</h4>
                             <div class="form-group">
-                                <textarea id="allowedTopics" rows="4" placeholder="×”×–×Ÿ topics ××•×¤×¨×“×™× ×‘×©×•×¨×•×ª ×—×“×©×•×ª&#10;×œ×“×•×’××”:&#10;horizon/light/#&#10;horizon/ac/#"></textarea>
-                                <small>×”×©×ª××© ×‘-# ×¢×‘×•×¨ ×›×œ ×”× ×•×©××™× ×ª×—×ª × ×ª×™×‘ ××¡×•×™×</small>
+                                <textarea id="allowedTopics" rows="4" placeholder="ÔÖß topics ŞÕäèÓÙİ ÑéÕèÕê ×ÓéÕê"></textarea>
                             </div>
-
-                            <button class="btn btn-success" onclick="savePermissions()">
-                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                ×©××•×¨ ×”×¨×©××•×ª
-                            </button>
+                            <button class="btn btn-success" onclick="savePermissions()"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>éŞÕè ÔèéĞÕê</button>
                         </div>
                     </div>
                 </div>
@@ -918,30 +280,14 @@
             <section id="section-devices" class="content-section">
                 <div class="card">
                     <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2z"/></svg>
-                            ×”×ª×§× ×™× ×–××™× ×™×
-                        </h3>
-                        <button class="btn btn-primary" onclick="openDeviceModal()">
-                            <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-                            ×”×•×¡×£ ×”×ª×§×Ÿ
-                        </button>
+                        <h3><svg viewBox="0 0 24 24"><path d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2z"/></svg>ÔêçàÙİ ÖŞÙàÙİ</h3>
+                        <button class="btn btn-primary" onclick="openDeviceModal()"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>ÔÕáã Ôêçß</button>
                     </div>
                     <div class="card-body">
                         <div class="table-container">
                             <table>
-                                <thead>
-                                    <tr>
-                                        <th>×©× ×”×ª×§×Ÿ</th>
-                                        <th>×¡×•×’</th>
-                                        <th>Topic</th>
-                                        <th>×¡×˜×˜×•×¡</th>
-                                        <th>×¤×¢×•×œ×•×ª</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="devicesTable">
-                                    <!-- Devices will be added here -->
-                                </tbody>
+                                <thead><tr><th>éİ Ôêçß</th><th>áÕÒ</th><th>Topic</th><th>áØØÕá</th><th>äâÕÜÕê</th></tr></thead>
+                                <tbody id="devicesTable"></tbody>
                             </table>
                         </div>
                     </div>
@@ -951,78 +297,13 @@
             <!-- MQTT Settings Section -->
             <section id="section-mqtt" class="content-section">
                 <div class="card">
-                    <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-                            ×”×’×“×¨×•×ª MQTT ×‘×¨×™×¨×ª ××—×“×œ
-                        </h3>
-                    </div>
+                    <div class="card-header"><h3><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>ÔÒÓèÕê MQTT ÑèÙèê Ş×ÓÜ</h3></div>
                     <div class="card-body">
                         <div class="form-grid">
-                            <div class="form-group">
-                                <label for="defaultBroker">×›×ª×•×‘×ª Broker</label>
-                                <input type="text" id="defaultBroker" value="wss://broker.hivemq.com:8884/mqtt">
-                            </div>
-                            <div class="form-group">
-                                <label for="defaultPort">×¤×•×¨×˜</label>
-                                <input type="text" id="defaultPort" value="8884">
-                            </div>
-                            <div class="form-group">
-                                <label for="defaultMqttUser">×©× ××©×ª××© (××•×¤×¦×™×•× ×œ×™)</label>
-                                <input type="text" id="defaultMqttUser" placeholder="×©× ××©×ª××©">
-                            </div>
-                            <div class="form-group">
-                                <label for="defaultMqttPass">×¡×™×¡××” (××•×¤×¦×™×•× ×œ×™)</label>
-                                <input type="password" id="defaultMqttPass" placeholder="×¡×™×¡××”">
-                            </div>
+                            <div class="form-group"><label for="defaultBroker">ÛêÕÑê Broker</label><input type="text" id="defaultBroker" value="wss://broker.hivemq.com:8884/mqtt"></div>
+                            <div class="form-group"><label for="baseTopic">Topic ÑáÙáÙ</label><input type="text" id="baseTopic" value="horizon"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="baseTopic">Topic ×‘×¡×™×¡×™</label>
-                            <input type="text" id="baseTopic" value="horizon">
-                            <small>×›×œ ×”-topics ×™×ª×—×™×œ×• ×‘×¢×¨×š ×–×”</small>
-                        </div>
-                        <button class="btn btn-success" onclick="saveMqttSettings()">
-                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                            ×©××•×¨ ×”×’×“×¨×•×ª
-                        </button>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
-                            ×”×’×“×¨×•×ª MQTT ×œ×œ×§×•×— ×¡×¤×¦×™×¤×™
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="selectUserMqtt">×‘×—×¨ ×œ×§×•×—:</label>
-                            <select id="selectUserMqtt" onchange="loadUserMqttSettings()">
-                                <option value="">-- ×‘×—×¨ ×œ×§×•×— --</option>
-                            </select>
-                        </div>
-
-                        <div id="userMqttForm" style="display: none;">
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="userBroker">×›×ª×•×‘×ª Broker</label>
-                                    <input type="text" id="userBroker" placeholder="×”×©××¨ ×¨×™×§ ×œ×‘×¨×™×¨×ª ××—×“×œ">
-                                </div>
-                                <div class="form-group">
-                                    <label for="userMqttUser">×©× ××©×ª××©</label>
-                                    <input type="text" id="userMqttUser" placeholder="×©× ××©×ª××©">
-                                </div>
-                                <div class="form-group">
-                                    <label for="userMqttPass">×¡×™×¡××”</label>
-                                    <input type="password" id="userMqttPass" placeholder="×¡×™×¡××”">
-                                </div>
-                            </div>
-                            <button class="btn btn-success" onclick="saveUserMqttSettings()">
-                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                                ×©××•×¨ ×”×’×“×¨×•×ª ×œ×§×•×—
-                            </button>
-                        </div>
+                        <button class="btn btn-success" onclick="saveMqttSettings()"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>éŞÕè ÔÒÓèÕê</button>
                     </div>
                 </div>
             </section>
@@ -1031,20 +312,45 @@
             <section id="section-logs" class="content-section">
                 <div class="card">
                     <div class="card-header">
-                        <h3>
-                            <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
-                            ×œ×•×’ ×¤×¢×™×œ×•×ª ××¢×¨×›×ª
-                        </h3>
+                        <h3><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>ÜÕÒ äâÙÜÕê ŞâèÛê</h3>
                         <div>
-                            <button class="btn btn-outline btn-sm" onclick="filterLogs('all')">×”×›×œ</button>
-                            <button class="btn btn-outline btn-sm" onclick="filterLogs('login')">×›× ×™×¡×•×ª</button>
-                            <button class="btn btn-outline btn-sm" onclick="filterLogs('action')">×¤×¢×•×œ×•×ª</button>
+                            <button class="btn btn-outline btn-sm" onclick="filterLogs('all')">ÔÛÜ</button>
+                            <button class="btn btn-outline btn-sm" onclick="filterLogs('login')">ÛàÙáÕê</button>
+                            <button class="btn btn-outline btn-sm" onclick="filterLogs('action')">äâÕÜÕê</button>
                         </div>
                     </div>
+                    <div class="card-body"><div class="activity-log" id="fullActivityLog"></div></div>
+                </div>
+            </section>
+
+            <!-- Admin Settings Section -->
+            <section id="section-admin-settings" class="content-section">
+                <div class="card">
+                    <div class="card-header"><h3><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg>éÙàÕÙ äèØÙ ŞàÔÜ</h3></div>
                     <div class="card-body">
-                        <div class="activity-log" id="fullActivityLog">
-                            <!-- Full activity log will be here -->
+                        <p style="margin-bottom: 1.5rem; color: var(--text-light);">éàÔ Ğê éİ ÔŞéêŞé ÕÔáÙáŞÔ éÜ ×éÑÕß ÔŞàÔÜ</p>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="adminUsername">éİ ŞéêŞé ŞàÔÜ</label>
+                                <input type="text" id="adminUsername" placeholder="éİ ŞéêŞé">
+                            </div>
+                            <div class="form-group">
+                                <label for="adminCurrentPassword">áÙáŞÔ àÕÛ×Ùê</label>
+                                <input type="password" id="adminCurrentPassword" placeholder="ÔÖß áÙáŞÔ àÕÛ×Ùê">
+                            </div>
+                            <div class="form-group">
+                                <label for="adminNewPassword">áÙáŞÔ ×ÓéÔ</label>
+                                <input type="password" id="adminNewPassword" placeholder="ÔÖß áÙáŞÔ ×ÓéÔ">
+                            </div>
+                            <div class="form-group">
+                                <label for="adminConfirmPassword">ĞÙŞÕê áÙáŞÔ ×ÓéÔ</label>
+                                <input type="password" id="adminConfirmPassword" placeholder="ÔÖß éÕÑ Ğê ÔáÙáŞÔ Ô×ÓéÔ">
+                            </div>
                         </div>
+                        <button class="btn btn-success" onclick="saveAdminSettings()">
+                            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            éŞÕè éÙàÕÙÙİ
+                        </button>
                     </div>
                 </div>
             </section>
@@ -1055,41 +361,22 @@
     <div class="modal-overlay" id="userModal">
         <div class="modal">
             <div class="modal-header">
-                <h3 id="userModalTitle">×”×•×¡×£ ××©×ª××© ×—×“×©</h3>
+                <h3 id="userModalTitle">ÔÕáã ŞéêŞé ×Óé</h3>
                 <button class="modal-close" onclick="closeUserModal()">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editUserId">
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label for="newUsername">×©× ××©×ª××© *</label>
-                        <input type="text" id="newUsername" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="newPassword">×¡×™×¡××” *</label>
-                        <input type="password" id="newPassword" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="newClientName">×©× ×”×œ×§×•×— ×œ×ª×¦×•×’×” *</label>
-                        <input type="text" id="newClientName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="newDashboard">×“×£ Dashboard</label>
-                        <select id="newDashboard">
-                            <option value="dashboard.html">dashboard.html (×‘×¨×™×¨×ª ××—×“×œ)</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label for="newUsername">éİ ŞéêŞé *</label><input type="text" id="newUsername" required></div>
+                    <div class="form-group"><label for="newPassword">áÙáŞÔ *</label><input type="password" id="newPassword" required></div>
+                    <div class="form-group"><label for="newClientName">éİ ÔÜçÕ× ÜêæÕÒÔ *</label><input type="text" id="newClientName" required></div>
+                    <div class="form-group"><label for="newDashboard">Óã Dashboard</label><select id="newDashboard"><option value="dashboard.html">dashboard.html (ÑèÙèê Ş×ÓÜ)</option></select></div>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="newUserActive" checked>
-                        ××©×ª××© ×¤×¢×™×œ
-                    </label>
-                </div>
+                <div class="form-group"><label><input type="checkbox" id="newUserActive" checked> ŞéêŞé äâÙÜ</label></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeUserModal()">×‘×™×˜×•×œ</button>
-                <button class="btn btn-primary" onclick="saveUser()">×©××•×¨</button>
+                <button class="btn btn-outline" onclick="closeUserModal()">ÑÙØÕÜ</button>
+                <button class="btn btn-primary" onclick="saveUser()">éŞÕè</button>
             </div>
         </div>
     </div>
@@ -1098,125 +385,55 @@
     <div class="modal-overlay" id="deviceModal">
         <div class="modal">
             <div class="modal-header">
-                <h3 id="deviceModalTitle">×”×•×¡×£ ×”×ª×§×Ÿ ×—×“×©</h3>
+                <h3 id="deviceModalTitle">ÔÕáã Ôêçß ×Óé</h3>
                 <button class="modal-close" onclick="closeDeviceModal()">&times;</button>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="editDeviceId">
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label for="deviceName">×©× ×”×ª×§×Ÿ *</label>
-                        <input type="text" id="deviceName" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="deviceType">×¡×•×’ ×”×ª×§×Ÿ *</label>
-                        <select id="deviceType">
-                            <option value="toggle">××ª×’ (×”×¤×¢×œ×”/×›×™×‘×•×™)</option>
-                            <option value="slider">××—×•×•×Ÿ (0-100)</option>
-                            <option value="sensor">×—×™×™×©×Ÿ (×§×¨×™××” ×‘×œ×‘×“)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="deviceTopic">Topic ×‘-MQTT *</label>
-                        <input type="text" id="deviceTopic" placeholder="horizon/device_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="deviceIcon">××™×™×§×•×Ÿ</label>
-                        <select id="deviceIcon">
-                            <option value="light">×ª××•×¨×”</option>
-                            <option value="ac">××™×–×•×’</option>
-                            <option value="blinds">×ª×¨×™×¡×™×</option>
-                            <option value="sensor">×—×™×™×©×Ÿ</option>
-                            <option value="power">×”×¤×¢×œ×”</option>
-                        </select>
-                    </div>
+                    <div class="form-group"><label for="deviceName">éİ Ôêçß *</label><input type="text" id="deviceName" required></div>
+                    <div class="form-group"><label for="deviceType">áÕÒ Ôêçß *</label><select id="deviceType"><option value="toggle">ŞêÒ (ÔäâÜÔ/ÛÙÑÕÙ)</option><option value="slider">Ş×ÕÕß (0-100)</option><option value="sensor">×ÙÙéß (çèÙĞÔ ÑÜÑÓ)</option></select></div>
+                    <div class="form-group"><label for="deviceTopic">Topic Ñ-MQTT *</label><input type="text" id="deviceTopic" placeholder="horizon/device_name"></div>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="deviceActive" checked>
-                        ×”×ª×§×Ÿ ×¤×¢×™×œ
-                    </label>
-                </div>
+                <div class="form-group"><label><input type="checkbox" id="deviceActive" checked> Ôêçß äâÙÜ</label></div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeDeviceModal()">×‘×™×˜×•×œ</button>
-                <button class="btn btn-primary" onclick="saveDevice()">×©××•×¨</button>
+                <button class="btn btn-outline" onclick="closeDeviceModal()">ÑÙØÕÜ</button>
+                <button class="btn btn-primary" onclick="saveDevice()">éŞÕè</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Data storage (in production, this would be server-side)
         let adminData = {
             users: {
-                'demo': {
-                    password: 'demo123',
-                    clientName: '×œ×§×•×— ×“××•',
-                    dashboardPage: 'dashboard.html',
-                    active: true,
-                    lastLogin: '2024-01-15 14:30',
-                    permissions: {
-                        controls: ['light', 'ac', 'blinds', 'sensors'],
-                        topics: ['horizon/#']
-                    },
-                    mqttSettings: null
-                },
-                'client1': {
-                    password: 'client123',
-                    clientName: '×œ×§×•×— 1',
-                    dashboardPage: 'dashboard.html',
-                    active: true,
-                    lastLogin: '2024-01-15 10:15',
-                    permissions: {
-                        controls: ['light', 'ac'],
-                        topics: ['horizon/light/#', 'horizon/ac/#']
-                    },
-                    mqttSettings: null
-                }
+                'demo': { password: 'demo123', clientName: 'ÜçÕ× ÓŞÕ', dashboardPage: 'dashboard.html', active: true, lastLogin: null, permissions: { controls: ['light', 'ac', 'blinds', 'sensors'], topics: ['horizon/#'] } },
+                'client1': { password: 'client123', clientName: 'ÜçÕ× 1', dashboardPage: 'dashboard.html', active: true, lastLogin: null, permissions: { controls: ['light', 'ac'], topics: ['horizon/light/#', 'horizon/ac/#'] } }
             },
             devices: [
-                { id: 1, name: '×ª××•×¨×” ×¨××©×™×ª', type: 'toggle', topic: 'horizon/light', icon: 'light', active: true },
-                { id: 2, name: '×¢×•×¦××ª ×ª××•×¨×”', type: 'slider', topic: 'horizon/light/brightness', icon: 'light', active: true },
-                { id: 3, name: '××™×–×•×’ ××•×•×™×¨', type: 'toggle', topic: 'horizon/ac', icon: 'ac', active: true },
-                { id: 4, name: '×˜××¤×¨×˜×•×¨×ª ××™×–×•×’', type: 'slider', topic: 'horizon/ac/temp', icon: 'ac', active: true },
-                { id: 5, name: '×ª×¨×™×¡×™×', type: 'slider', topic: 'horizon/blinds', icon: 'blinds', active: true },
-                { id: 6, name: '×—×™×™×©×Ÿ ×˜××¤×¨×˜×•×¨×”', type: 'sensor', topic: 'horizon/sensor/temperature', icon: 'sensor', active: true }
+                { id: 1, name: 'êĞÕèÔ èĞéÙê', type: 'toggle', topic: 'horizon/light', active: true },
+                { id: 2, name: 'âÕæŞê êĞÕèÔ', type: 'slider', topic: 'horizon/light/brightness', active: true },
+                { id: 3, name: 'ŞÙÖÕÒ ĞÕÕÙè', type: 'toggle', topic: 'horizon/ac', active: true },
+                { id: 4, name: 'ØŞäèØÕèê ŞÙÖÕÒ', type: 'slider', topic: 'horizon/ac/temp', active: true },
+                { id: 5, name: 'êèÙáÙİ', type: 'slider', topic: 'horizon/blinds', active: true },
+                { id: 6, name: '×ÙÙéß ØŞäèØÕèÔ', type: 'sensor', topic: 'horizon/sensor/temperature', active: true }
             ],
-            mqttDefaults: {
-                broker: 'wss://broker.hivemq.com:8884/mqtt',
-                port: '8884',
-                username: '',
-                password: '',
-                baseTopic: 'horizon'
-            },
-            activityLog: [
-                { type: 'login', user: 'demo', action: '×”×ª×—×‘×¨ ×œ××¢×¨×›×ª', time: '2024-01-15 14:30' },
-                { type: 'action', user: 'admin', action: '×¢×“×›×Ÿ ×”×¨×©××•×ª ×¢×‘×•×¨ client1', time: '2024-01-15 12:00' },
-                { type: 'login', user: 'client1', action: '×”×ª×—×‘×¨ ×œ××¢×¨×›×ª', time: '2024-01-15 10:15' },
-                { type: 'logout', user: 'demo', action: '×”×ª× ×ª×§ ××”××¢×¨×›×ª', time: '2024-01-14 18:00' }
-            ]
+            mqttDefaults: { broker: 'wss://broker.hivemq.com:8884/mqtt', baseTopic: 'horizon' },
+            activityLog: [],
+            adminCredentials: { username: 'admin', password: 'admin123' }
         };
 
-        // Load from localStorage if exists
         const savedData = localStorage.getItem('horizonAdminData');
-        if (savedData) {
-            adminData = JSON.parse(savedData);
-        }
+        if (savedData) adminData = JSON.parse(savedData);
+        if (!adminData.adminCredentials) adminData.adminCredentials = { username: 'admin', password: 'admin123' };
 
-        // Save to localStorage
-        function saveData() {
-            localStorage.setItem('horizonAdminData', JSON.stringify(adminData));
-        }
+        function saveData() { localStorage.setItem('horizonAdminData', JSON.stringify(adminData)); }
 
-        // Check admin authentication
         document.addEventListener('DOMContentLoaded', function() {
             const adminSession = sessionStorage.getItem('adminUser');
-            if (!adminSession) {
-                window.location.href = 'login.html';
-                return;
-            }
-
+            if (!adminSession) { window.location.href = 'login.html'; return; }
             initializeDashboard();
+            document.getElementById('adminUsername').value = adminData.adminCredentials.username;
         });
 
         function initializeDashboard() {
@@ -1230,73 +447,47 @@
         function updateStats() {
             const users = Object.keys(adminData.users);
             const activeUsers = users.filter(u => adminData.users[u].active);
-
             document.getElementById('totalUsers').textContent = users.length;
             document.getElementById('activeUsers').textContent = activeUsers.length;
             document.getElementById('totalDevices').textContent = adminData.devices.length;
             document.getElementById('todayLogins').textContent = adminData.activityLog.filter(a => a.type === 'login').length;
         }
 
-        // Navigation
         function showSection(section) {
-            // Update menu items
             document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
             event.target.closest('.menu-item').classList.add('active');
-
-            // Update content sections
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.getElementById('section-' + section).classList.add('active');
-
-            // Update page title
             const titles = {
-                dashboard: { title: '×œ×•×— ×‘×§×¨×”', subtitle: '×¡×§×™×¨×” ×›×œ×œ×™×ª ×©×œ ×”××¢×¨×›×ª' },
-                users: { title: '× ×™×”×•×œ ××©×ª××©×™×', subtitle: '×”×•×¡×¤×”, ×¢×¨×™×›×” ×•××—×™×§×” ×©×œ ××©×ª××©×™×' },
-                permissions: { title: '×”×¨×©××•×ª ×•×”×¤× ×™×•×ª', subtitle: '× ×™×”×•×œ ×”×¨×©××•×ª ×’×™×©×” ×œ××©×ª××©×™×' },
-                devices: { title: '× ×™×”×•×œ ×”×ª×§× ×™×', subtitle: '×”×’×“×¨×ª ×”×ª×§× ×™× ×•×¤×§×“×™×' },
-                mqtt: { title: '×”×’×“×¨×•×ª MQTT', subtitle: '×ª×¦×•×¨×ª ×—×™×‘×•×¨ ×œ-Broker' },
-                logs: { title: '×œ×•×’ ×¤×¢×™×œ×•×ª', subtitle: '××¢×§×‘ ××—×¨ ×¤×¢×•×œ×•×ª ×‘××¢×¨×›×ª' }
+                'dashboard': { title: 'ÜÕ× ÑçèÔ', subtitle: 'áçÙèÔ ÛÜÜÙê éÜ ÔŞâèÛê' },
+                'users': { title: 'àÙÔÕÜ ŞéêŞéÙİ', subtitle: 'ÔÕáäÔ, âèÙÛÔ ÕŞ×ÙçÔ éÜ ŞéêŞéÙİ' },
+                'permissions': { title: 'ÔèéĞÕê ÕÔäàÙÕê', subtitle: 'àÙÔÕÜ ÔèéĞÕê ÒÙéÔ ÜŞéêŞéÙİ' },
+                'devices': { title: 'àÙÔÕÜ ÔêçàÙİ', subtitle: 'ÔÒÓèê ÔêçàÙİ ÕäçÓÙİ' },
+                'mqtt': { title: 'ÔÒÓèÕê MQTT', subtitle: 'êæÕèê ×ÙÑÕè Ü-Broker' },
+                'logs': { title: 'ÜÕÒ äâÙÜÕê', subtitle: 'ŞâçÑ Ğ×è äâÕÜÕê ÑŞâèÛê' },
+                'admin-settings': { title: 'ÔÒÓèÕê ŞàÔÜ', subtitle: 'éÙàÕÙ äèØÙ Ôê×ÑèÕê ŞàÔÜ' }
             };
-
             document.getElementById('pageTitle').textContent = titles[section].title;
             document.getElementById('pageSubtitle').textContent = titles[section].subtitle;
-
-            // Close mobile sidebar
             document.getElementById('sidebar').classList.remove('active');
         }
 
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
 
-        // Users Management
         function renderUsersTable() {
             const tbody = document.getElementById('usersTable');
             tbody.innerHTML = '';
-
             Object.keys(adminData.users).forEach(username => {
                 const user = adminData.users[username];
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${username}</strong></td>
-                    <td>${user.clientName}</td>
-                    <td>${user.dashboardPage}</td>
-                    <td><span class="badge ${user.active ? 'badge-success' : 'badge-error'}">${user.active ? '×¤×¢×™×œ' : '×œ× ×¤×¢×™×œ'}</span></td>
-                    <td>${user.lastLogin || '×œ× ×”×ª×—×‘×¨'}</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-outline btn-sm" onclick="editUser('${username}')">×¢×¨×™×›×”</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser('${username}')">××—×™×§×”</button>
-                        </div>
-                    </td>
-                `;
+                row.innerHTML = `<td><strong>${username}</strong></td><td>${user.clientName}</td><td>${user.dashboardPage}</td><td><span class="badge ${user.active ? 'badge-success' : 'badge-error'}">${user.active ? 'äâÙÜ' : 'ÜĞ äâÙÜ'}</span></td><td>${user.lastLogin || 'ÜĞ Ôê×Ñè'}</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editUser('${username}')">âèÙÛÔ</button><button class="btn btn-danger btn-sm" onclick="deleteUser('${username}')">Ş×ÙçÔ</button></div></td>`;
                 tbody.appendChild(row);
             });
         }
 
         function openUserModal(username = null) {
             document.getElementById('userModal').classList.add('active');
-            document.getElementById('userModalTitle').textContent = username ? '×¢×¨×™×›×ª ××©×ª××©' : '×”×•×¡×£ ××©×ª××© ×—×“×©';
-
+            document.getElementById('userModalTitle').textContent = username ? 'âèÙÛê ŞéêŞé' : 'ÔÕáã ŞéêŞé ×Óé';
             if (username) {
                 const user = adminData.users[username];
                 document.getElementById('editUserId').value = username;
@@ -1317,13 +508,8 @@
             }
         }
 
-        function closeUserModal() {
-            document.getElementById('userModal').classList.remove('active');
-        }
-
-        function editUser(username) {
-            openUserModal(username);
-        }
+        function closeUserModal() { document.getElementById('userModal').classList.remove('active'); }
+        function editUser(username) { openUserModal(username); }
 
         function saveUser() {
             const editId = document.getElementById('editUserId').value;
@@ -1332,270 +518,161 @@
             const clientName = document.getElementById('newClientName').value.trim();
             const dashboardPage = document.getElementById('newDashboard').value;
             const active = document.getElementById('newUserActive').checked;
-
-            if (!username || !password || !clientName) {
-                showToast('error', '×™×© ×œ××œ× ××ª ×›×œ ×”×©×“×•×ª ×”×—×•×‘×”');
-                return;
-            }
-
-            if (!editId && adminData.users[username]) {
-                showToast('error', '×©× ××©×ª××© ×›×‘×¨ ×§×™×™×');
-                return;
-            }
-
+            if (!username || !password || !clientName) { showToast('error', 'Ùé ÜŞÜĞ Ğê ÛÜ ÔéÓÕê Ô×ÕÑÔ'); return; }
+            if (!editId && adminData.users[username]) { showToast('error', 'éİ ŞéêŞé ÛÑè çÙÙİ'); return; }
             adminData.users[username] = {
-                password: password,
-                clientName: clientName,
-                dashboardPage: dashboardPage,
-                active: active,
+                password: password, clientName: clientName, dashboardPage: dashboardPage, active: active,
                 lastLogin: editId ? adminData.users[username]?.lastLogin : null,
-                permissions: editId ? adminData.users[username]?.permissions : { controls: [], topics: [] },
-                mqttSettings: editId ? adminData.users[username]?.mqttSettings : null
+                permissions: editId ? adminData.users[username]?.permissions : { controls: [], topics: [] }
             };
-
-            saveData();
-            renderUsersTable();
-            populateUserSelects();
-            updateStats();
-            closeUserModal();
-
-            addActivityLog('action', 'admin', editId ? `×¢×“×›×Ÿ ××©×ª××©: ${username}` : `×”×•×¡×™×£ ××©×ª××©: ${username}`);
-            showToast('success', editId ? '×”××©×ª××© ×¢×•×“×›×Ÿ ×‘×”×¦×œ×—×”' : '×”××©×ª××© × ×•×¡×£ ×‘×”×¦×œ×—×”');
+            saveData(); renderUsersTable(); populateUserSelects(); updateStats(); closeUserModal();
+            addActivityLog('action', 'admin', editId ? `âÓÛß ŞéêŞé: ${username}` : `ÔÕáÙã ŞéêŞé: ${username}`);
+            showToast('success', editId ? 'ÔŞéêŞé âÕÓÛß ÑÔæÜ×Ô' : 'ÔŞéêŞé àÕáã ÑÔæÜ×Ô');
         }
 
         function deleteUser(username) {
-            if (!confirm(`×”×× ××ª×” ×‘×˜×•×— ×©×‘×¨×¦×•× ×š ×œ××—×•×§ ××ª ×”××©×ª××© "${username}"?`)) {
-                return;
-            }
-
+            if (!confirm(`ÔĞİ ĞêÔ ÑØÕ× éÑèæÕàÚ ÜŞ×Õç Ğê ÔŞéêŞé "${username}"?`)) return;
             delete adminData.users[username];
-            saveData();
-            renderUsersTable();
-            populateUserSelects();
-            updateStats();
-
-            addActivityLog('action', 'admin', `××—×§ ××©×ª××©: ${username}`);
-            showToast('success', '×”××©×ª××© × ××—×§ ×‘×”×¦×œ×—×”');
+            saveData(); renderUsersTable(); populateUserSelects(); updateStats();
+            addActivityLog('action', 'admin', `Ş×ç ŞéêŞé: ${username}`);
+            showToast('success', 'ÔŞéêŞé àŞ×ç ÑÔæÜ×Ô');
         }
 
-        // Devices Management
         function renderDevicesTable() {
             const tbody = document.getElementById('devicesTable');
             tbody.innerHTML = '';
-
-            const typeNames = { toggle: '××ª×’', slider: '××—×•×•×Ÿ', sensor: '×—×™×™×©×Ÿ' };
-
+            const typeNames = { toggle: 'ŞêÒ', slider: 'Ş×ÕÕß', sensor: '×ÙÙéß' };
             adminData.devices.forEach(device => {
                 const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td><strong>${device.name}</strong></td>
-                    <td>${typeNames[device.type]}</td>
-                    <td><code>${device.topic}</code></td>
-                    <td><span class="badge ${device.active ? 'badge-success' : 'badge-error'}">${device.active ? '×¤×¢×™×œ' : '×œ× ×¤×¢×™×œ'}</span></td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn btn-outline btn-sm" onclick="editDevice(${device.id})">×¢×¨×™×›×”</button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteDevice(${device.id})">××—×™×§×”</button>
-                        </div>
-                    </td>
-                `;
+                row.innerHTML = `<td><strong>${device.name}</strong></td><td>${typeNames[device.type]}</td><td><code>${device.topic}</code></td><td><span class="badge ${device.active ? 'badge-success' : 'badge-error'}">${device.active ? 'äâÙÜ' : 'ÜĞ äâÙÜ'}</span></td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editDevice(${device.id})">âèÙÛÔ</button><button class="btn btn-danger btn-sm" onclick="deleteDevice(${device.id})">Ş×ÙçÔ</button></div></td>`;
                 tbody.appendChild(row);
             });
         }
 
         function openDeviceModal(deviceId = null) {
             document.getElementById('deviceModal').classList.add('active');
-            document.getElementById('deviceModalTitle').textContent = deviceId ? '×¢×¨×™×›×ª ×”×ª×§×Ÿ' : '×”×•×¡×£ ×”×ª×§×Ÿ ×—×“×©';
-
+            document.getElementById('deviceModalTitle').textContent = deviceId ? 'âèÙÛê Ôêçß' : 'ÔÕáã Ôêçß ×Óé';
             if (deviceId) {
                 const device = adminData.devices.find(d => d.id === deviceId);
                 document.getElementById('editDeviceId').value = deviceId;
                 document.getElementById('deviceName').value = device.name;
                 document.getElementById('deviceType').value = device.type;
                 document.getElementById('deviceTopic').value = device.topic;
-                document.getElementById('deviceIcon').value = device.icon;
                 document.getElementById('deviceActive').checked = device.active;
             } else {
                 document.getElementById('editDeviceId').value = '';
                 document.getElementById('deviceName').value = '';
                 document.getElementById('deviceType').value = 'toggle';
                 document.getElementById('deviceTopic').value = '';
-                document.getElementById('deviceIcon').value = 'power';
                 document.getElementById('deviceActive').checked = true;
             }
         }
 
-        function closeDeviceModal() {
-            document.getElementById('deviceModal').classList.remove('active');
-        }
-
-        function editDevice(deviceId) {
-            openDeviceModal(deviceId);
-        }
+        function closeDeviceModal() { document.getElementById('deviceModal').classList.remove('active'); }
+        function editDevice(deviceId) { openDeviceModal(deviceId); }
 
         function saveDevice() {
             const editId = document.getElementById('editDeviceId').value;
             const name = document.getElementById('deviceName').value.trim();
             const type = document.getElementById('deviceType').value;
             const topic = document.getElementById('deviceTopic').value.trim();
-            const icon = document.getElementById('deviceIcon').value;
             const active = document.getElementById('deviceActive').checked;
-
-            if (!name || !topic) {
-                showToast('error', '×™×© ×œ××œ× ××ª ×›×œ ×”×©×“×•×ª ×”×—×•×‘×”');
-                return;
-            }
-
+            if (!name || !topic) { showToast('error', 'Ùé ÜŞÜĞ Ğê ÛÜ ÔéÓÕê Ô×ÕÑÔ'); return; }
             if (editId) {
                 const device = adminData.devices.find(d => d.id === parseInt(editId));
-                device.name = name;
-                device.type = type;
-                device.topic = topic;
-                device.icon = icon;
-                device.active = active;
+                device.name = name; device.type = type; device.topic = topic; device.active = active;
             } else {
                 const newId = Math.max(...adminData.devices.map(d => d.id), 0) + 1;
-                adminData.devices.push({ id: newId, name, type, topic, icon, active });
+                adminData.devices.push({ id: newId, name, type, topic, active });
             }
-
-            saveData();
-            renderDevicesTable();
-            updateStats();
-            closeDeviceModal();
-
-            showToast('success', editId ? '×”×”×ª×§×Ÿ ×¢×•×“×›×Ÿ ×‘×”×¦×œ×—×”' : '×”×”×ª×§×Ÿ × ×•×¡×£ ×‘×”×¦×œ×—×”');
+            saveData(); renderDevicesTable(); updateStats(); closeDeviceModal();
+            showToast('success', editId ? 'ÔÔêçß âÕÓÛß ÑÔæÜ×Ô' : 'ÔÔêçß àÕáã ÑÔæÜ×Ô');
         }
 
         function deleteDevice(deviceId) {
-            if (!confirm('×”×× ××ª×” ×‘×˜×•×— ×©×‘×¨×¦×•× ×š ×œ××—×•×§ ×”×ª×§×Ÿ ×–×”?')) {
-                return;
-            }
-
+            if (!confirm('ÔĞİ ĞêÔ ÑØÕ× éÑèæÕàÚ ÜŞ×Õç Ôêçß ÖÔ?')) return;
             adminData.devices = adminData.devices.filter(d => d.id !== deviceId);
-            saveData();
-            renderDevicesTable();
-            updateStats();
-
-            showToast('success', '×”×”×ª×§×Ÿ × ××—×§ ×‘×”×¦×œ×—×”');
+            saveData(); renderDevicesTable(); updateStats();
+            showToast('success', 'ÔÔêçß àŞ×ç ÑÔæÜ×Ô');
         }
 
-        // Permissions
         function populateUserSelects() {
-            const selects = ['selectUserPerm', 'selectUserMqtt'];
-            selects.forEach(selectId => {
-                const select = document.getElementById(selectId);
-                const currentValue = select.value;
-                select.innerHTML = '<option value="">-- ×‘×—×¨ ××©×ª××© --</option>';
-
-                Object.keys(adminData.users).forEach(username => {
-                    const option = document.createElement('option');
-                    option.value = username;
-                    option.textContent = `${adminData.users[username].clientName} (${username})`;
-                    select.appendChild(option);
-                });
-
-                select.value = currentValue;
+            const select = document.getElementById('selectUserPerm');
+            const currentValue = select.value;
+            select.innerHTML = '<option value="">-- Ñ×è ŞéêŞé --</option>';
+            Object.keys(adminData.users).forEach(username => {
+                const option = document.createElement('option');
+                option.value = username;
+                option.textContent = `${adminData.users[username].clientName} (${username})`;
+                select.appendChild(option);
             });
+            select.value = currentValue;
         }
 
         function loadUserPermissions() {
             const username = document.getElementById('selectUserPerm').value;
             const form = document.getElementById('permissionsForm');
-
-            if (!username) {
-                form.style.display = 'none';
-                return;
-            }
-
+            if (!username) { form.style.display = 'none'; return; }
             form.style.display = 'block';
             const user = adminData.users[username];
             const permissions = user.permissions || { controls: [], topics: [] };
-
-            // Set checkboxes
             ['light', 'ac', 'blinds', 'sensors', 'custom'].forEach(control => {
                 document.getElementById('perm_' + control).checked = permissions.controls.includes(control);
             });
-
-            // Set topics
             document.getElementById('allowedTopics').value = permissions.topics.join('\n');
         }
 
         function savePermissions() {
             const username = document.getElementById('selectUserPerm').value;
             if (!username) return;
-
             const controls = [];
             ['light', 'ac', 'blinds', 'sensors', 'custom'].forEach(control => {
-                if (document.getElementById('perm_' + control).checked) {
-                    controls.push(control);
-                }
+                if (document.getElementById('perm_' + control).checked) controls.push(control);
             });
-
             const topicsText = document.getElementById('allowedTopics').value;
             const topics = topicsText.split('\n').map(t => t.trim()).filter(t => t);
-
             adminData.users[username].permissions = { controls, topics };
             saveData();
-
-            addActivityLog('action', 'admin', `×¢×“×›×Ÿ ×”×¨×©××•×ª ×¢×‘×•×¨ ${username}`);
-            showToast('success', '×”×”×¨×©××•×ª × ×©××¨×• ×‘×”×¦×œ×—×”');
+            addActivityLog('action', 'admin', `âÓÛß ÔèéĞÕê âÑÕè ${username}`);
+            showToast('success', 'ÔÔèéĞÕê àéŞèÕ ÑÔæÜ×Ô');
         }
 
-        // MQTT Settings
         function saveMqttSettings() {
             adminData.mqttDefaults = {
                 broker: document.getElementById('defaultBroker').value,
-                port: document.getElementById('defaultPort').value,
-                username: document.getElementById('defaultMqttUser').value,
-                password: document.getElementById('defaultMqttPass').value,
                 baseTopic: document.getElementById('baseTopic').value
             };
-
             saveData();
-            showToast('success', '×”×’×“×¨×•×ª MQTT × ×©××¨×• ×‘×”×¦×œ×—×”');
+            showToast('success', 'ÔÒÓèÕê MQTT àéŞèÕ ÑÔæÜ×Ô');
         }
 
-        function loadUserMqttSettings() {
-            const username = document.getElementById('selectUserMqtt').value;
-            const form = document.getElementById('userMqttForm');
+        function saveAdminSettings() {
+            const username = document.getElementById('adminUsername').value.trim();
+            const currentPassword = document.getElementById('adminCurrentPassword').value;
+            const newPassword = document.getElementById('adminNewPassword').value;
+            const confirmPassword = document.getElementById('adminConfirmPassword').value;
 
-            if (!username) {
-                form.style.display = 'none';
-                return;
-            }
+            if (!username) { showToast('error', 'Ùé ÜÔÖÙß éİ ŞéêŞé'); return; }
+            if (currentPassword !== adminData.adminCredentials.password) { showToast('error', 'ÔáÙáŞÔ ÔàÕÛ×Ùê éÒÕÙÔ'); return; }
+            if (newPassword && newPassword !== confirmPassword) { showToast('error', 'ÔáÙáŞĞÕê Ô×ÓéÕê ĞÙàß êÕĞŞÕê'); return; }
 
-            form.style.display = 'block';
-            const settings = adminData.users[username].mqttSettings || {};
-
-            document.getElementById('userBroker').value = settings.broker || '';
-            document.getElementById('userMqttUser').value = settings.username || '';
-            document.getElementById('userMqttPass').value = settings.password || '';
-        }
-
-        function saveUserMqttSettings() {
-            const username = document.getElementById('selectUserMqtt').value;
-            if (!username) return;
-
-            adminData.users[username].mqttSettings = {
-                broker: document.getElementById('userBroker').value,
-                username: document.getElementById('userMqttUser').value,
-                password: document.getElementById('userMqttPass').value
-            };
-
+            adminData.adminCredentials.username = username;
+            if (newPassword) adminData.adminCredentials.password = newPassword;
             saveData();
-            showToast('success', '×”×’×“×¨×•×ª MQTT ×œ×œ×§×•×— × ×©××¨×• ×‘×”×¦×œ×—×”');
+
+            document.getElementById('adminCurrentPassword').value = '';
+            document.getElementById('adminNewPassword').value = '';
+            document.getElementById('adminConfirmPassword').value = '';
+
+            addActivityLog('action', 'admin', 'âÓÛß äèØÙ ŞàÔÜ');
+            showToast('success', 'äèØÙ ÔŞàÔÜ âÕÓÛàÕ ÑÔæÜ×Ô');
         }
 
-        // Activity Log
         function addActivityLog(type, user, action) {
             const now = new Date();
             const time = now.toLocaleString('he-IL');
-
             adminData.activityLog.unshift({ type, user, action, time });
-            if (adminData.activityLog.length > 100) {
-                adminData.activityLog = adminData.activityLog.slice(0, 100);
-            }
-
+            if (adminData.activityLog.length > 100) adminData.activityLog = adminData.activityLog.slice(0, 100);
             saveData();
             renderActivityLog();
         }
@@ -1603,91 +680,41 @@
         function renderActivityLog() {
             const recentLog = document.getElementById('recentActivity');
             const fullLog = document.getElementById('fullActivityLog');
-
             const renderItems = (container, items) => {
                 container.innerHTML = '';
                 items.forEach(item => {
                     const div = document.createElement('div');
                     div.className = 'activity-item';
-                    div.innerHTML = `
-                        <div class="activity-icon ${item.type}">
-                            <svg viewBox="0 0 24 24">
-                                ${item.type === 'login' ? '<path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>' :
-                                  item.type === 'logout' ? '<path d="M17 7l-1.4 1.4 2.6 2.6H8v2h10.2l-2.6 2.6L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>' :
-                                  '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'}
-                            </svg>
-                        </div>
-                        <div class="activity-content">
-                            <h4>${item.action}</h4>
-                            <p>${item.user} â€¢ ${item.time}</p>
-                        </div>
-                    `;
+                    div.innerHTML = `<div class="activity-icon ${item.type}"><svg viewBox="0 0 24 24">${item.type === 'login' ? '<path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5z"/>' : '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'}</svg></div><div class="activity-content"><h4>${item.action}</h4><p>${item.user} " ${item.time}</p></div>`;
                     container.appendChild(div);
                 });
             };
-
             renderItems(recentLog, adminData.activityLog.slice(0, 5));
             renderItems(fullLog, adminData.activityLog);
         }
 
         function filterLogs(type) {
-            const items = type === 'all' ?
-                adminData.activityLog :
-                adminData.activityLog.filter(a => a.type === type);
-
+            const items = type === 'all' ? adminData.activityLog : adminData.activityLog.filter(a => a.type === type);
             const container = document.getElementById('fullActivityLog');
             container.innerHTML = '';
-
             items.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'activity-item';
-                div.innerHTML = `
-                    <div class="activity-icon ${item.type}">
-                        <svg viewBox="0 0 24 24">
-                            ${item.type === 'login' ? '<path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>' :
-                              item.type === 'logout' ? '<path d="M17 7l-1.4 1.4 2.6 2.6H8v2h10.2l-2.6 2.6L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>' :
-                              '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'}
-                        </svg>
-                    </div>
-                    <div class="activity-content">
-                        <h4>${item.action}</h4>
-                        <p>${item.user} â€¢ ${item.time}</p>
-                    </div>
-                `;
+                div.innerHTML = `<div class="activity-icon ${item.type}"><svg viewBox="0 0 24 24">${item.type === 'login' ? '<path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5z"/>' : '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>'}</svg></div><div class="activity-content"><h4>${item.action}</h4><p>${item.user} " ${item.time}</p></div>`;
                 container.appendChild(div);
             });
         }
 
-        // Toast Notifications
         function showToast(type, message) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = 'toast ' + type;
-
-            const icons = {
-                success: '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>',
-                error: '<path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>',
-                warning: '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>'
-            };
-
-            toast.innerHTML = `
-                <svg viewBox="0 0 24 24">${icons[type]}</svg>
-                <span>${message}</span>
-            `;
-
+            toast.innerHTML = `<svg viewBox="0 0 24 24">${type === 'success' ? '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>' : '<path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>'}</svg><span>${message}</span>`;
             container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
 
-        // Logout
-        function logout() {
-            sessionStorage.removeItem('adminUser');
-            window.location.href = 'login.html';
-        }
+        function logout() { sessionStorage.removeItem('adminUser'); window.location.href = 'login.html'; }
     </script>
 </body>
 </html>
