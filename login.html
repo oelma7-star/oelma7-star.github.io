@@ -534,6 +534,20 @@
                     return;
                 }
 
+                // Check subscription expiry
+                if (user.expiryDate) {
+                    const expiryDate = new Date(user.expiryDate);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (expiryDate < today) {
+                        document.getElementById('errorMessage').innerHTML = 'פג תוקף המנוי שלך.<br>יש לשלוח מייל לכתובת <a href="mailto:ofir@horizon-control.co.il" style="color: var(--primary); text-decoration: underline;">ofir@horizon-control.co.il</a> לצורך חידוש הרישיון.';
+                        errorMessage.classList.add('show');
+                        loginBtn.classList.remove('loading');
+                        loginBtn.disabled = false;
+                        return;
+                    }
+                }
+
                 // Store user session
                 sessionStorage.setItem('currentUser', JSON.stringify({
                     username: username,
@@ -541,6 +555,7 @@
                     dashboardPage: user.dashboardPage,
                     permissions: user.permissions || { controls: [], topics: [] },
                     mqttSettings: user.mqttSettings || null,
+                    hideMqttPanel: user.hideMqttPanel || false,
                     loginTime: new Date().toISOString()
                 }));
 

@@ -239,7 +239,7 @@
                     <div class="card-body">
                         <div class="table-container">
                             <table>
-                                <thead><tr><th>שם משתמש</th><th>שם לקוח</th><th>דף Dashboard</th><th>סטטוס</th><th>כניסה אחרונה</th><th>פעולות</th></tr></thead>
+                                <thead><tr><th>שם משתמש</th><th>שם לקוח</th><th>דף Dashboard</th><th>סטטוס</th><th>תוקף מנוי</th><th>כניסה אחרונה</th><th>פעולות</th></tr></thead>
                                 <tbody id="usersTable"></tbody>
                             </table>
                         </div>
@@ -296,10 +296,13 @@
             <!-- MQTT Settings Section -->
             <section id="section-mqtt" class="content-section">
                 <div class="card">
-                    <div class="card-header"><h3><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>הגדרות MQTT ברירת מחדל</h3></div>
+                    <div class="card-header"><h3><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>הגדרות MQTT Broker</h3></div>
                     <div class="card-body">
+                        <p style="margin-bottom: 1rem; color: var(--text-light);">הגדר את פרטי החיבור ל-MQTT Broker שלך (EMQX, HiveMQ, Mosquitto וכו')</p>
                         <div class="form-grid">
-                            <div class="form-group"><label for="defaultBroker">כתובת Broker</label><input type="text" id="defaultBroker" value="wss://broker.hivemq.com:8884/mqtt"></div>
+                            <div class="form-group"><label for="defaultBroker">כתובת Broker *</label><input type="text" id="defaultBroker" placeholder="wss://broker.emqx.io:8084/mqtt" value=""></div>
+                            <div class="form-group"><label for="mqttUsername">שם משתמש MQTT *</label><input type="text" id="mqttUsername" placeholder="שם משתמש" value=""></div>
+                            <div class="form-group"><label for="mqttPassword">סיסמה MQTT *</label><input type="password" id="mqttPassword" placeholder="סיסמה"></div>
                             <div class="form-group"><label for="baseTopic">Topic בסיסי</label><input type="text" id="baseTopic" value="horizon"></div>
                         </div>
                         <button class="btn btn-success" onclick="saveMqttSettings()"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>שמור הגדרות</button>
@@ -370,8 +373,10 @@
                     <div class="form-group"><label for="newPassword">סיסמה *</label><input type="password" id="newPassword" required></div>
                     <div class="form-group"><label for="newClientName">שם הלקוח לתצוגה *</label><input type="text" id="newClientName" required></div>
                     <div class="form-group"><label for="newDashboard">דף Dashboard</label><select id="newDashboard"><option value="dashboard.html">dashboard.html (ברירת מחדל)</option></select></div>
+                    <div class="form-group"><label for="newExpiryDate">תאריך תוקף מנוי *</label><input type="date" id="newExpiryDate" required></div>
                 </div>
                 <div class="form-group"><label><input type="checkbox" id="newUserActive" checked> משתמש פעיל</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hideMqttPanel"> הסתר פאנל MQTT והודעות (דאשבורד נקי)</label></div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline" onclick="closeUserModal()">ביטול</button>
@@ -441,6 +446,7 @@
             renderDevicesTable();
             renderActivityLog();
             populateUserSelects();
+            loadMqttSettings();
         }
 
         function updateStats() {
@@ -479,7 +485,12 @@
             Object.keys(adminData.users).forEach(username => {
                 const user = adminData.users[username];
                 const row = document.createElement('tr');
-                row.innerHTML = '<td><strong>' + username + '</strong></td><td>' + user.clientName + '</td><td>' + user.dashboardPage + '</td><td><span class="badge ' + (user.active ? 'badge-success' : 'badge-error') + '">' + (user.active ? 'פעיל' : 'לא פעיל') + '</span></td><td>' + (user.lastLogin || 'לא התחבר') + '</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editUser(\'' + username + '\')">עריכה</button><button class="btn btn-danger btn-sm" onclick="deleteUser(\'' + username + '\')">מחיקה</button></div></td>';
+                const expiryDate = user.expiryDate ? new Date(user.expiryDate) : null;
+                const isExpired = expiryDate && expiryDate < new Date();
+                const expiryDisplay = expiryDate ? expiryDate.toLocaleDateString('he-IL') : 'לא הוגדר';
+                const expiryClass = isExpired ? 'badge-error' : 'badge-success';
+                const expiryText = isExpired ? expiryDisplay + ' (פג תוקף)' : expiryDisplay;
+                row.innerHTML = '<td><strong>' + username + '</strong></td><td>' + user.clientName + '</td><td>' + user.dashboardPage + '</td><td><span class="badge ' + (user.active ? 'badge-success' : 'badge-error') + '">' + (user.active ? 'פעיל' : 'לא פעיל') + '</span></td><td><span class="badge ' + expiryClass + '">' + expiryText + '</span></td><td>' + (user.lastLogin || 'לא התחבר') + '</td><td><div class="action-btns"><button class="btn btn-outline btn-sm" onclick="editUser(\'' + username + '\')">עריכה</button><button class="btn btn-danger btn-sm" onclick="deleteUser(\'' + username + '\')">מחיקה</button></div></td>';
                 tbody.appendChild(row);
             });
         }
@@ -495,7 +506,9 @@
                 document.getElementById('newPassword').value = user.password;
                 document.getElementById('newClientName').value = user.clientName;
                 document.getElementById('newDashboard').value = user.dashboardPage;
+                document.getElementById('newExpiryDate').value = user.expiryDate || '';
                 document.getElementById('newUserActive').checked = user.active;
+                document.getElementById('hideMqttPanel').checked = user.hideMqttPanel || false;
             } else {
                 document.getElementById('editUserId').value = '';
                 document.getElementById('newUsername').value = '';
@@ -503,7 +516,9 @@
                 document.getElementById('newPassword').value = '';
                 document.getElementById('newClientName').value = '';
                 document.getElementById('newDashboard').value = 'dashboard.html';
+                document.getElementById('newExpiryDate').value = '';
                 document.getElementById('newUserActive').checked = true;
+                document.getElementById('hideMqttPanel').checked = false;
             }
         }
 
@@ -516,11 +531,15 @@
             const password = document.getElementById('newPassword').value;
             const clientName = document.getElementById('newClientName').value.trim();
             const dashboardPage = document.getElementById('newDashboard').value;
+            const expiryDate = document.getElementById('newExpiryDate').value;
             const active = document.getElementById('newUserActive').checked;
-            if (!username || !password || !clientName) { showToast('error', 'יש למלא את כל השדות החובה'); return; }
+            const hideMqttPanel = document.getElementById('hideMqttPanel').checked;
+            if (!username || !password || !clientName || !expiryDate) { showToast('error', 'יש למלא את כל השדות החובה'); return; }
             if (!editId && adminData.users[username]) { showToast('error', 'שם משתמש כבר קיים'); return; }
             adminData.users[username] = {
                 password: password, clientName: clientName, dashboardPage: dashboardPage, active: active,
+                expiryDate: expiryDate,
+                hideMqttPanel: hideMqttPanel,
                 lastLogin: editId ? adminData.users[username]?.lastLogin : null,
                 permissions: editId ? adminData.users[username]?.permissions : { controls: [], topics: [] }
             };
@@ -637,12 +656,32 @@
         }
 
         function saveMqttSettings() {
+            const broker = document.getElementById('defaultBroker').value.trim();
+            const username = document.getElementById('mqttUsername').value.trim();
+            const password = document.getElementById('mqttPassword').value;
+
+            if (!broker || !username || !password) {
+                showToast('error', 'יש למלא את כל השדות החובה');
+                return;
+            }
+
             adminData.mqttDefaults = {
-                broker: document.getElementById('defaultBroker').value,
+                broker: broker,
+                username: username,
+                password: password,
                 baseTopic: document.getElementById('baseTopic').value
             };
             saveData();
             showToast('success', 'הגדרות MQTT נשמרו בהצלחה');
+        }
+
+        function loadMqttSettings() {
+            if (adminData.mqttDefaults) {
+                document.getElementById('defaultBroker').value = adminData.mqttDefaults.broker || '';
+                document.getElementById('mqttUsername').value = adminData.mqttDefaults.username || '';
+                document.getElementById('mqttPassword').value = adminData.mqttDefaults.password || '';
+                document.getElementById('baseTopic').value = adminData.mqttDefaults.baseTopic || 'horizon';
+            }
         }
 
         function saveAdminSettings() {

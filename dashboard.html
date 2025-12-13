@@ -629,21 +629,22 @@
             <div class="mqtt-form">
                 <div class="form-group">
                     <label for="brokerUrl">כתובת Broker</label>
-                    <input type="text" id="brokerUrl" placeholder="wss://broker.hivemq.com:8884/mqtt" value="wss://broker.hivemq.com:8884/mqtt">
+                    <input type="text" id="brokerUrl" placeholder="wss://broker.emqx.io:8084/mqtt" value="">
                 </div>
                 <div class="form-group">
                     <label for="clientId">Client ID</label>
                     <input type="text" id="clientId" placeholder="horizon-client-xxx">
                 </div>
                 <div class="form-group">
-                    <label for="mqttUsername">שם משתמש (אופציונלי)</label>
-                    <input type="text" id="mqttUsername" placeholder="שם משתמש">
+                    <label for="mqttUsername">שם משתמש *</label>
+                    <input type="text" id="mqttUsername" placeholder="backend_user" value="">
                 </div>
                 <div class="form-group">
-                    <label for="mqttPassword">סיסמה (אופציונלי)</label>
-                    <input type="password" id="mqttPassword" placeholder="סיסמה">
+                    <label for="mqttPassword">סיסמה *</label>
+                    <input type="password" id="mqttPassword" placeholder="סיסמה" value="">
                 </div>
                 <button id="connectBtn" class="connect-btn" onclick="connectMQTT()">התחבר</button>
+                <button id="disconnectBtn" class="disconnect-btn" onclick="disconnectMQTT()" style="display:none;">התנתק</button>
             </div>
         </div>
 
@@ -781,7 +782,7 @@
 
             <!-- Subscribe Form -->
             <div class="subscribe-form">
-                <input type="text" id="subscribeTopic" placeholder="נושא להרשמה (לדוגמה: horizon/#)">
+                <input type="text" id="subscribeTopic" placeholder="נושא להרשמה (לדוגמה: horizon/test)" value="horizon/test">
                 <button class="subscribe-btn" onclick="subscribeTopic()" id="subscribeBtn" disabled>הרשמה</button>
             </div>
 
@@ -814,11 +815,34 @@
             if (userSession) {
                 const user = JSON.parse(userSession);
                 document.getElementById('userName').textContent = user.clientName;
+
+                // Hide MQTT panels if configured
+                if (user.hideMqttPanel) {
+                    document.querySelector('.mqtt-settings').style.display = 'none';
+                    document.querySelector('.messages-panel').style.display = 'none';
+                    // Auto-connect in background if MQTT settings exist
+                    autoConnectMqtt();
+                }
             }
 
             // Generate unique client ID
             document.getElementById('clientId').value = 'horizon-' + Math.random().toString(16).substr(2, 8);
         });
+
+        function autoConnectMqtt() {
+            // Get MQTT settings from admin data
+            const adminData = localStorage.getItem('horizonAdminData');
+            if (adminData) {
+                const data = JSON.parse(adminData);
+                if (data.mqttDefaults && data.mqttDefaults.broker && data.mqttDefaults.username) {
+                    document.getElementById('brokerUrl').value = data.mqttDefaults.broker;
+                    document.getElementById('mqttUsername').value = data.mqttDefaults.username;
+                    document.getElementById('mqttPassword').value = data.mqttDefaults.password;
+                    // Auto connect
+                    setTimeout(connectMQTT, 500);
+                }
+            }
+        }
 
         function logout() {
             sessionStorage.removeItem('currentUser');
@@ -839,8 +863,8 @@
             const isConnected = status === 'connected';
             document.getElementById('publishBtn').disabled = !isConnected;
             document.getElementById('subscribeBtn').disabled = !isConnected;
-            document.getElementById('connectBtn').textContent = isConnected ? 'מחובר' : 'התחבר';
-            document.getElementById('connectBtn').disabled = isConnected;
+            document.getElementById('connectBtn').style.display = isConnected ? 'none' : 'inline-block';
+            document.getElementById('disconnectBtn').style.display = isConnected ? 'inline-block' : 'none';
         }
 
         function addMessage(type, topic, payload) {
@@ -864,35 +888,65 @@
         }
 
         function connectMQTT() {
-            const brokerUrl = document.getElementById('brokerUrl').value;
-            const clientId = document.getElementById('clientId').value;
-            const username = document.getElementById('mqttUsername').value;
+            let brokerUrl = document.getElementById('brokerUrl').value.trim();
+            const clientId = document.getElementById('clientId').value.trim();
+            const username = document.getElementById('mqttUsername').value.trim();
             const password = document.getElementById('mqttPassword').value;
+
+            // Validate required fields
+            if (!brokerUrl) {
+                addMessage('system', 'שגיאה: יש להזין כתובת Broker');
+                return;
+            }
+            if (!username || !password) {
+                addMessage('system', 'שגיאה: יש להזין שם משתמש וסיסמה');
+                return;
+            }
+
+            // Convert protocol for browser WebSocket connection
+            // EMQX Cloud: mqtts:// or mqtt:// needs to be wss:// or ws://
+            if (brokerUrl.startsWith('mqtts://')) {
+                brokerUrl = brokerUrl.replace('mqtts://', 'wss://');
+            } else if (brokerUrl.startsWith('mqtt://')) {
+                brokerUrl = brokerUrl.replace('mqtt://', 'ws://');
+            } else if (!brokerUrl.startsWith('ws://') && !brokerUrl.startsWith('wss://')) {
+                brokerUrl = 'wss://' + brokerUrl;
+            }
+            // Add /mqtt path if not present (required for WebSocket)
+            if (!brokerUrl.includes('/mqtt') && !brokerUrl.endsWith('/')) {
+                brokerUrl = brokerUrl + '/mqtt';
+            }
 
             updateConnectionStatus('connecting', 'מתחבר...');
             addMessage('system', 'מנסה להתחבר ל-' + brokerUrl);
+            console.log('Connecting to:', brokerUrl, 'with user:', username);
 
             const options = {
-                clientId: clientId,
+                clientId: clientId || 'horizon-web-' + Math.random().toString(16).substr(2, 8),
                 clean: true,
-                connectTimeout: 4000,
-                reconnectPeriod: 1000
+                connectTimeout: 30000,
+                reconnectPeriod: 5000,
+                username: username,
+                password: password,
+                protocolVersion: 4,
+                keepalive: 60,
+                rejectUnauthorized: false  // Important for self-signed certificates
             };
 
-            if (username) options.username = username;
-            if (password) options.password = password;
-
             try {
+                console.log('MQTT Options:', JSON.stringify({...options, password: '***'}));
                 mqttClient = mqtt.connect(brokerUrl, options);
 
                 mqttClient.on('connect', function() {
                     updateConnectionStatus('connected', 'מחובר');
-                    addMessage('system', 'התחברות הצליחה!');
+                    addMessage('system', 'התחברות הצליחה! מחובר ל-MQTT Broker');
 
-                    // Auto-subscribe to horizon topics
-                    mqttClient.subscribe('horizon/#', function(err) {
+                    // Auto-subscribe to horizon/test topic
+                    mqttClient.subscribe('horizon/test', function(err) {
                         if (!err) {
-                            addMessage('system', 'נרשם לנושא: horizon/#');
+                            addMessage('system', 'נרשם לנושא: horizon/test');
+                        } else {
+                            addMessage('system', 'שגיאה בהרשמה ל-horizon/test: ' + err.message);
                         }
                     });
                 });
@@ -901,23 +955,49 @@
                     const payload = message.toString();
                     addMessage('message', topic, payload);
 
-                    // Update UI based on received messages
-                    handleIncomingMessage(topic, payload);
+                    // Try to parse JSON and update UI
+                    try {
+                        const data = JSON.parse(payload);
+                        handleIncomingMessage(topic, payload, data);
+                    } catch (e) {
+                        handleIncomingMessage(topic, payload, null);
+                    }
                 });
 
                 mqttClient.on('error', function(err) {
                     updateConnectionStatus('disconnected', 'שגיאת חיבור');
-                    addMessage('system', 'שגיאה: ' + err.message);
+                    let errorMsg = err.message || 'שגיאה לא ידועה';
+                    if (err.code) errorMsg += ' (קוד: ' + err.code + ')';
+                    addMessage('system', 'שגיאה: ' + errorMsg);
+                    console.error('MQTT Error:', err);
                 });
 
                 mqttClient.on('close', function() {
                     updateConnectionStatus('disconnected', 'התנתק');
                     addMessage('system', 'החיבור נסגר');
+                    console.log('MQTT connection closed');
+                });
+
+                mqttClient.on('offline', function() {
+                    updateConnectionStatus('disconnected', 'לא מקוון');
+                    addMessage('system', 'החיבור לא זמין - בדוק את כתובת השרת והפורט');
+                });
+
+                mqttClient.on('reconnect', function() {
+                    updateConnectionStatus('connecting', 'מתחבר מחדש...');
+                    addMessage('system', 'מנסה להתחבר מחדש...');
+                });
+
+                mqttClient.on('disconnect', function(packet) {
+                    updateConnectionStatus('disconnected', 'נותק');
+                    addMessage('system', 'נותק מהשרת');
+                    console.log('MQTT disconnected:', packet);
                 });
 
             } catch (err) {
                 updateConnectionStatus('disconnected', 'שגיאה');
-                addMessage('system', 'שגיאה: ' + err.message);
+                addMessage('system', 'שגיאת חיבור: ' + (err.message || err));
+                console.error('Connection error:', err);
             }
         }
 
@@ -972,7 +1052,7 @@
             }
         }
 
-        function handleIncomingMessage(topic, payload) {
+        function handleIncomingMessage(topic, payload, jsonData) {
             // Update UI controls based on incoming MQTT messages
             if (topic === 'horizon/light') {
                 document.getElementById('lightToggle').checked = payload === 'ON';
@@ -993,6 +1073,16 @@
                 document.getElementById('sensorHumidity').textContent = payload;
             } else if (topic === 'horizon/custom') {
                 document.getElementById('customToggle').checked = payload === 'ON';
+            }
+
+            // Handle JSON sensor data from horizon/test topic
+            if (jsonData && topic === 'horizon/test') {
+                // Example: {"sensor": "temp1", "value": 24.5}
+                if (jsonData.sensor === 'temp1' || jsonData.sensor === 'temperature') {
+                    document.getElementById('sensorTemp').textContent = jsonData.value;
+                } else if (jsonData.sensor === 'humidity') {
+                    document.getElementById('sensorHumidity').textContent = jsonData.value;
+                }
             }
         }
 
